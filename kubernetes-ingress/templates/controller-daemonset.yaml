@@ -140,10 +140,9 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-          {{- range .Values.controller.extraEnvs }}
-          - name: "{{ .name }}"
-            value: "{{ .value }}"
-          {{- end }}
+        {{- with.Values.controller.extraEnvs }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
           resources:
             {{- toYaml .Values.controller.resources | nindent 12 }}
       {{- with.Values.controller.initContainers }}
